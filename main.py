@@ -1,8 +1,8 @@
 import asyncio
 import logging
 
-from maxapi import Bot, Dispatcher, F
-from maxapi.types import BotStarted, Command, MessageCreated
+from maxapi import Bot, Dispatcher
+from maxapi.types import BotStarted
 
 from config import settings
 from handlers.user import menu
