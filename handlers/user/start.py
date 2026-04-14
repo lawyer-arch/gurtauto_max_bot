@@ -1,12 +1,21 @@
+from maxapi.types import MessageCreated, Command
+from maxapi.enums import parse_mode 
+from keyboards.main_menu import generate_main_menu_markup
+from maxapi import Router
 
-# Ответ бота на команду /start
-@dp.message_created(Command('start'))
-async def hello(event: MessageCreated):
-    await event.message.answer('Привет чат-бот для Max! Напиши мне.')
+router = Router(router_id="start")
 
 
-# Обработчик только текстовых сообщений
-@dp.message_created(F.message.body.text)
-async def text_handler(event: MessageCreated):
-    text = event.message.body.text
-    await event.message.answer(f"Длина вашего сообщения: {len(text)} символов")
+@router.message_created(Command('start'))
+async def start_handler(event: MessageCreated):
+    html_text = (
+        "<i>🚗 Добро пожаловать!</i>\n"
+        "<b>          GURTAUTO</b>\n"
+        "<i>поможет воплотить мечту в реальность.</i>"
+    )
+    
+    await event.message.answer(
+        text=html_text,
+        format=parse_mode.ParseMode.HTML,
+        attachments=[await generate_main_menu_markup()]
+    )

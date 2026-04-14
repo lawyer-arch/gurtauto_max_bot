@@ -3,9 +3,7 @@ from maxapi.context import StatesGroup, State
 
 class LeadForm(StatesGroup):
     phone = State()
-    marka = State()
-    model = State()
-    color = State()
+    marka_model_color = State()
     engine = State()
     drive = State()
     fuel = State()

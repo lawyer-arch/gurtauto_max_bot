@@ -5,8 +5,7 @@ from maxapi import Bot, Dispatcher
 from maxapi.types import BotStarted
 
 from config import settings
-from handlers.user import menu
-
+from handlers.user import menu, start
 
 logging.basicConfig(level=logging.INFO)
 
@@ -14,7 +13,9 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=settings.BOT_TOKEN)
 dp = Dispatcher()
 
+dp.include_routers(start.router)
 dp.include_routers(menu.router)
+
 
 # Ответ бота при нажатии кнопки "Начать"
 @dp.bot_started()
