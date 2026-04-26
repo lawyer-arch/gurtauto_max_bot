@@ -5,7 +5,7 @@ from maxapi import Bot, Dispatcher
 from maxapi.types import BotStarted
 
 from config import settings
-from handlers.user import menu, start
+from handlers.user import menu, start, lead_form
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,6 +15,7 @@ dp = Dispatcher()
 
 dp.include_routers(start.router)
 dp.include_routers(menu.router)
+dp.include_routers(lead_form.router)
 
 
 # Ответ бота при нажатии кнопки "Начать"

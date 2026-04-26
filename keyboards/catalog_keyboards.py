@@ -1,3 +1,4 @@
+from maxapi.types import LinkButton, ButtonsPayload
 from maxapi.utils.inline_keyboard import InlineKeyboardBuilder
 from maxapi.types.attachments.buttons import CallbackButton
 
@@ -15,161 +16,89 @@ async def button_generator_application():
 
 
 def button_generator_comments():
-    """Генерирует кнопки выбора источника отзывов VK, TG, 2GIS""" 
+    """Генерирует кнопки-ссылки на источники отзывов"""
     
-    buttons = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(
-                text="Вконтакте",
-                url="vk.com/gurt_auto"
-            ),],
-            [InlineKeyboardButton(
-                text="Telegram",
-                url="https://t.me/gurt_auto"
-            ), ],
-            [InlineKeyboardButton(
-                text="2GIS",
-                url="https://2gis.ru/krasnodar/geo/70000001104157255"
-            )]
-        ]
+    builder = InlineKeyboardBuilder()
+    
+    builder.row(
+        LinkButton(text="Вконтакте", url="https://vk.com/gurt_auto"),
+        LinkButton(text="Telegram", url="https://t.me/gurt_auto"),
+        LinkButton(
+            text="2GIS",
+            url="https://2gis.ru/krasnodar/geo/70000001104157255"
+        )
     )
-    
-    return buttons
+
+    return builder.as_markup()
 
 
 def button_generator_drive():
     
     """Генерирует кнопки выбора привода передний, полный, задний"""
     
-    buttons = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    text="4WD",
-                    callback_data="drive_4wd"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Передний привод",
-                    callback_data="drive_front"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Задний привод",
-                    callback_data="drive_rear"
-                )
-            ]
-        ]
-    ) 
+    builder = InlineKeyboardBuilder()
     
-    return buttons 
-
+    builder.row(
+        CallbackButton(text="4WD", payload="drive_4wd"),
+        CallbackButton(text="Передний привод", payload="drive_front"),
+        CallbackButton(text="Задний привод", payload="drive_rear")
+    )
+    
+    return builder.as_markup()
+    
 
 def button_generator_fuel():
     
     """Генерирует кнопки выбора топлива бензин, дизель, гибрид, элетрический"""
+    builder = InlineKeyboardBuilder()
     
-    buttons = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    text="Бензин",
-                    callback_data="fuel_petrol"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Дизель",
-                    callback_data="fuel_diesel"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Гибрид",
-                    callback_data="fuel_hybrid"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Электрический",
-                    callback_data="fuel_electric"
-                )
-            ]
-        ]
-    ) 
+    builder.row(
+        CallbackButton(text="Бензин", payload="fuel_petrol"),
+        CallbackButton(text="Дизель", payload="fuel_diesel"),
+        CallbackButton(text="Электрический", payload="fuel_electric")
+    )
     
-    return buttons
+    return builder.as_markup()
 
 
 def button_generator_year():
     
     """Генерирует кнопки выбора года"""
     
-    buttons = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    text="До 3-х лет",
-                    callback_data="year_3"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="3-5 лет",
-                    callback_data="year_3_5"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Старше 5 лет",
-                    callback_data="year_more_than_5"
-                )
-            ]
-        ]
-    ) 
+    builder = InlineKeyboardBuilder()
     
-    return buttons
+    builder.row(
+        CallbackButton(text="До 3-х лет", payload="year_3"),
+        CallbackButton(text="3-5 лет", payload="year_3_5"),
+        CallbackButton(text="Старше 5 лет", payload="year_more_than_5")
+    )
+    
+    return builder.as_markup()
 
 
 def button_generator_repairs():
     
     """Генерирует кнопки выбора допустимости повреждений авто"""
     
-    buttons = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    text="Допустимо",
-                    callback_data="repairs_yes"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Не допустимо",
-                    callback_data="repairs_no"
-                )
-            ]
-        ]
-    ) 
+    builder = InlineKeyboardBuilder()
     
-    return buttons
+    builder.row(
+        CallbackButton(text="Допустимо", payload="repairs_yes"),
+        CallbackButton(text="Не допустимо", payload="repairs_no"),
+    )
+    
+    return builder.as_markup()
 
 
 def button_generator_further():
     
     """Генерирует кнопки далее"""
     
-    buttons = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    text="Пропустить",
-                    callback_data="further"
-                )
-            ]
-        ]
-    ) 
+    builder = InlineKeyboardBuilder()
     
-    return buttons
+    builder.row(
+        CallbackButton(text="Пропустить", payload="repairs_yes"),
+        CallbackButton(text="Не допустимо", payload="further"),
+    )
+    
+    return builder.as_markup()
