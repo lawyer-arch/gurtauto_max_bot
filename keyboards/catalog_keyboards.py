@@ -97,8 +97,7 @@ def button_generator_further():
     builder = InlineKeyboardBuilder()
     
     builder.row(
-        CallbackButton(text="Пропустить", payload="repairs_yes"),
-        CallbackButton(text="Не допустимо", payload="further"),
+        CallbackButton(text="Пропустить", payload="further")
     )
     
     return builder.as_markup()

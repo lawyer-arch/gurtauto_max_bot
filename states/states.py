@@ -12,4 +12,3 @@ class LeadForm(StatesGroup):
     budget = State()
     repairs = State()
     url = State()
-    image = State()

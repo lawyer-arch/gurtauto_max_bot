@@ -23,6 +23,7 @@ pydantic-settings = "^2.2"
 
 alembic = "^1.13"
 psycopg2-binary = "^2.9.11"
+psycopg = "^3.3.3"
 
 [build-system]
 requires = ["poetry-core>=1.5.0"]
