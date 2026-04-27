@@ -69,8 +69,8 @@ def button_generator_year():
     
     builder.row(
         CallbackButton(text="До 3-х лет", payload="year_3"),
-        CallbackButton(text="3-5 лет", payload="year_3_5"),
-        CallbackButton(text="Старше 5 лет", payload="year_more_than_5")
+        CallbackButton(text="3-5 лет", payload="year_3-5"),
+        CallbackButton(text="Старше 5 лет", payload="year_more-than-5")
     )
     
     return builder.as_markup()
