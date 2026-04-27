@@ -3,6 +3,7 @@ from maxapi.context import MemoryContext
 from maxapi.types import MessageCreated
 from maxapi.enums import parse_mode
 from states.states import LeadForm
+from keyboards.catalog_keyboards import button_generator_drive
 
 router = Router()
 
@@ -36,3 +37,30 @@ async def name_handler(event: MessageCreated, context: MemoryContext):
     await context.update_data(marka_model_color=parts)
     await context.set_state(LeadForm.engine)
     await event.message.answer(get_message)
+
+
+"""Выбираем тип привода"""
+@router.message_created(LeadForm.engine)
+async def select_drive_type(event: MessageCreated, context: MemoryContext):
+    """
+    Обработчик выбора типа двигателя.
+    Сохраняет выбранный тип двигателя и предлагает выбрать тип привода.
+    """
+    # олучаем предыдущее значение
+    parts = event.message.body.text.split()
+    
+    # Сохраняем выбранный тип двигателя в FSMContext
+    await context.update_data(engine=parts)
+    
+    # Переходим к следующему шагу FSM
+    await context.set_state(LeadForm.drive)
+    
+    # Предложение пользователю выбрать тип привода
+    prompt = "Укажите тип привода."
+    
+    # Отправляем сообщение с клавиатурой выбора привода
+    await event.message.answer(
+        text=prompt,
+        format=parse_mode.ParseMode.HTML,
+        attachments=[button_generator_drive()]
+    )
