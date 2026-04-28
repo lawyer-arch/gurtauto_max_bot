@@ -33,10 +33,6 @@ class Lead(Base):
     repairs: Mapped[str] = mapped_column(String(250), nullable=True)
     
     url: Mapped[str | None] = mapped_column(String(250), nullable=True)
-    image_data: Mapped[bytes | None] = mapped_column(
-        LargeBinary,
-        nullable=True
-    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     USERNAME_BOT: str
     BOT_TOKEN: str
     ID_BOT: str
+    ADMIN_ID: int
     
     POSTGRES_HOST: str
     POSTGRES_PORT: int

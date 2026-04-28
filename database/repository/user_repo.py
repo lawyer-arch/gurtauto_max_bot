@@ -9,7 +9,7 @@ class UserRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def get_or_create(self, user_id, username, full_name):
+    async def get_or_create(self, user_id, username, first_name):
 
         result = await self.session.execute(
             select(UserMax).where(UserMax.user_id == user_id)
@@ -22,7 +22,7 @@ class UserRepository:
         user = UserMax(
             user_id=user_id,
             username=username,
-            full_name=full_name
+            first_name=first_name
         )
 
         self.session.add(user)

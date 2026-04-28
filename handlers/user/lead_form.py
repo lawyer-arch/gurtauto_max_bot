@@ -9,6 +9,7 @@ from database.repository.user_repo import UserRepository
 from database.repository.lead_repo import LeadRepository
 from services.lead_service import LeadService
 from services.notify_service import NotifyService
+from services.email_service import EmailService
 from database.session import async_session
 from keyboards.catalog_keyboards import (
     button_generator_drive,
@@ -37,6 +38,7 @@ async def start_handler(event: MessageCreated, context: MemoryContext):
 """Выбираем объем двигателя"""
 @router.message_created(LeadForm.marka_model_color)
 async def name_handler(event: MessageCreated, context: MemoryContext):
+    
     parts = event.message.body.text.split()
     if len(parts) < 2:
         await event.message.answer(
@@ -44,10 +46,17 @@ async def name_handler(event: MessageCreated, context: MemoryContext):
         )
         return
     
+    marka = parts[0] if len(parts) > 0 else None
+    model = parts[1] if len(parts) > 1 else None
+    color = " ".join(parts[2:]) if len(parts) > 2 else None
     get_message = (
         "Укажите объем двигателя."
     )
-    await context.update_data(marka_model_color=parts)
+    await context.update_data(
+        marka=marka,
+        model=model,
+        color=color
+    )
     await context.set_state(LeadForm.engine)
     await event.message.answer(get_message)
 
@@ -282,14 +291,12 @@ async def phone_handler(event: MessageCreated, context: MemoryContext):
         user = await user_repo.get_or_create(
             event.from_user.user_id,
             event.from_user.username or "",
-            event.from_user.full_name or event.from_user.first_name or ""
+            event.from_user.first_name or ""
         )
-        
-        print(user)
-        
+
         lead_repo = LeadRepository(session)
         service = LeadService(lead_repo)
-        
+
         try:
             await service.create_lead({
                 "user_id": user.id,
@@ -305,7 +312,6 @@ async def phone_handler(event: MessageCreated, context: MemoryContext):
                 "budget": data.get("budget", "не указано"),
                 "repairs": data.get("repairs", "не указано"),
                 "url": data.get("url"),
-                "image_data": data.get("image_data")
             })
         except Exception as e:
             logging.error(f"DB error: {e}", exc_info=True)
@@ -314,16 +320,15 @@ async def phone_handler(event: MessageCreated, context: MemoryContext):
             )
             return
 
-    notify = NotifyService(event.message.bot)
-
+    email_service = EmailService()
     try:
-        await notify.send_new_lead(
-            event.message.from_user.full_name,
+        await email_service.send_lead_notification(
+            event.from_user.first_name,
             phone,
             data
         )
     except Exception as e:
-        logging.error(f"Notify error: {e}")
+        logging.error(f"Email error: {e}")
 
     await event.message.answer("✅ Заявка отправлена")
     await context.clear()

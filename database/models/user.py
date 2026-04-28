@@ -16,6 +16,7 @@ class UserMax(Base):
         index=True
     )
     first_name: Mapped[str] = mapped_column(nullable=True)
+    username: Mapped [str] = mapped_column (nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now()

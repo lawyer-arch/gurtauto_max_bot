@@ -147,4 +147,3 @@ async def show_about_us(event):
     
     except Exception as e:
         print(f"[LOG] ОШИБКА ПРИ ОТПРАВКЕ: {type(e).__name__}: {e}")
-        
